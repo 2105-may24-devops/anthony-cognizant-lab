@@ -40,9 +40,8 @@ stages:
 
       - script: chmod +x gradlew && ./gradlew build jacocoTestReport
       
-      - script: ls 
       - task: SonarCloudAnalyze@1
-      
+
       - task: SonarCloudPublish@1
         inputs:
           pollingTimeoutSec: '300'
@@ -57,3 +56,33 @@ stages:
     - script: chmod +x gradlew && ./gradlew build
     
     - script: ls build/libs/
+    
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'Dockerhub'
+        repository: 'cog-devops-lab'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+
+# - stage: Deploy
+#   pool:
+#         vmImage: 'ubuntu-latest'
+#   displayName: Deploy to AKS Cluster
+#   dependsOn: Check
+#   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+#   jobs:
+#     - deployment: DevDeploy
+#       displayName: Deploy to AKS Dev Environment
+#       condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+#       environment: dev
+#       strategy:
+#         runOnce:
+#           deploy:
+#             steps:
+#             - checkout: self
+#             - task: KubernetesManifest@0
+#               inputs:
+#                 action: 'deploy'
+#                 kubernetesServiceConnection: 'cog-aks-cluster'
+#                 namespace: 'anthony'
+#                 manifests: './kubernetes.yml'
