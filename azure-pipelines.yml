@@ -48,6 +48,8 @@ stages:
           pollingTimeoutSec: '300'
 
 - stage: DockerBuildPush
+  pool:
+      vmImage: 'ubuntu-latest'
   jobs:
   - job: DockerBuildPush
     steps:
