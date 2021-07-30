@@ -61,21 +61,23 @@ stages:
     # Create image with build specificity.
     - task: Docker@2
       inputs:
-        containerRegistry: 'Dockerhub'
-        repository: 'cog-app'
+        containerRegistry: 'docker-service'
+        repository: 'cog-devops-lab'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
         tags: '$(Build.BuildNumber)'
+        addPipelineData: false
 
     # Create image with latest.   
 
     - task: Docker@2
       inputs:
-        containerRegistry: 'Dockerhub'
-        repository: 'cog-app'
+        containerRegistry: 'docker-service'
+        repository: 'cog-devops-lab'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
         tags: 'latest'
+        addPipelineData: false
 
 # - stage: Deploy
 #   pool:
