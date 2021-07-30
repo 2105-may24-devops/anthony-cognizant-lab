@@ -35,17 +35,30 @@ stages:
           cliProjectKey: '$(sonarProjectKey)'
           cliSources: '.'
           extraProperties: './build/intermediates/classes/'
-
+          
+      - task: Gradle@2
+        inputs:
+          gradleWrapperFile: 'gradlew'
+          tasks: 'build'
+          publishJUnitResults: true
+          testResultsFiles: '**/TEST-*.xml'
+          codeCoverageToolOption: 'JaCoCo'
+          codeCoverageClassFilesDirectories: 'build/classes/main/'
+          javaHomeOption: 'JDKVersion'
+          sonarQubeRunAnalysis: true
+          sqGradlePluginVersionChoice: 'build'
+          spotBugsAnalysis: false
       # Build and Test application
 
-      - script: chmod +x gradlew && ./gradlew build jacocoTestReport
+      # - script: chmod +x gradlew && ./gradlew build jacocoTestReport
+
       
-      - script: ls 
-      - task: SonarCloudAnalyze@1
+      # - script: ls 
+      # - task: SonarCloudAnalyze@1
       
-      - task: SonarCloudPublish@1
-        inputs:
-          pollingTimeoutSec: '300'
+      # - task: SonarCloudPublish@1
+      #   inputs:
+      #     pollingTimeoutSec: '300'
 
   # - stage: DockerBuildPush
   #   jobs:
