@@ -40,7 +40,7 @@ stages:
 
       - script: chmod +x gradlew && ./gradlew build jacocoTestReport
       
-      - script: echo 'ls'
+      - script: ls 
       - task: SonarCloudAnalyze@1
       
       - task: SonarCloudPublish@1
