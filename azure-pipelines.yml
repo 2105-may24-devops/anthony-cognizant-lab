@@ -68,7 +68,7 @@ stages:
     - task: Docker@2
       inputs:
         containerRegistry: 'docker-service'
-        repository: 'cog-devops-lab'
+        repository: 'iamjarvi/cog-devops-lab'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
         tags: '$(Build.BuildNumber)'
@@ -79,7 +79,7 @@ stages:
     - task: Docker@2
       inputs:
         containerRegistry: 'docker-service'
-        repository: 'cog-devops-lab'
+        repository: 'iamjarvi/cog-devops-lab'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
         tags: 'latest'
