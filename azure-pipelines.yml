@@ -13,6 +13,9 @@ pr:
       - development
       - feature_*
 
+variables:
+  - group: analysis-group
+
 stages:
 - stage: Compile
   pool:
@@ -28,7 +31,9 @@ stages:
           SonarCloud: 'sonar-cloud'
           organization: '2105-may24-devops'
           scannerMode: 'CLI'
-          configMode: 'file'
+          configMode: 'manual'
+          cliProjectKey: '$(sonarProjectKey)'
+          cliSources: '.'
 
       # Build and Test application
 
