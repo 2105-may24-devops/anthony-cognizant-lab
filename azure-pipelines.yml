@@ -5,24 +5,26 @@ stages:
       displayName: Build and Test
      # container: <Probably a gradle container here>
       steps:
-      - task: Gradle@2
+
+      # Prepare SonarCloud Analysis
+      - task: SonarCloudPrepare@1
         inputs:
-          gradleWrapperFile: 'gradlew'
-          tasks: 'build'
-          publishJUnitResults: true
-          testResultsFiles: '**/TEST-*.xml'
-          codeCoverageToolOption: 'JaCoCo'
-          codeCoverageClassFilesDirectories: 'build/classes/main/'
-          javaHomeOption: 'JDKVersion'
-          sonarQubeRunAnalysis: false
-          spotBugsAnalysis: false
-      #- script: chmod +x gradlew && ./gradlew build jacocoTestReport
-  # - stage: SonarQube
-  #   jobs:
-  #   - job: Sonarscan
-  #     steps:
-  #     - script: |
-  #         echo "Sonarqube Integration"
+          SonarCloud: 'sonar-cloud'
+          organization: '2105-may24-devops'
+          scannerMode: 'MSBuild'
+          projectKey: '2105-may24-devops_anthony-cognizant-lab'
+          projectName: 'anthony-cognizant-lab'
+
+      # Build and Test application
+
+      - script: chmod +x gradlew && ./gradlew build jacocoTestReport
+      
+      - task: SonarCloudAnalyze@1
+      
+      - task: SonarCloudPublish@1
+        inputs:
+          pollingTimeoutSec: '300'
+
   # - stage: DockerBuildPush
   #   jobs:
   #   - job: DockerBuildPush
