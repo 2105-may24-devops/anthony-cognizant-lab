@@ -27,9 +27,8 @@ stages:
         inputs:
           SonarCloud: 'sonar-cloud'
           organization: '2105-may24-devops'
-          scannerMode: 'MSBuild'
-          projectKey: '2105-may24-devops_anthony-cognizant-lab'
-          projectName: 'anthony-cognizant-lab'
+          scannerMode: 'CLI'
+          configMode: 'file'
 
       # Build and Test application
 
