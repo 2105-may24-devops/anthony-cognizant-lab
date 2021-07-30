@@ -54,16 +54,15 @@ stages:
     steps:
     
     # Build jar file.
-    
+
     - script: chmod +x gradlew && ./gradlew build
     
     
     # Create image with build specificity.
-
     - task: Docker@2
       inputs:
         containerRegistry: 'Dockerhub'
-        repository: 'cog-devops-lab'
+        repository: 'cog-app'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
         tags: '$(Build.BuildNumber)'
@@ -73,7 +72,7 @@ stages:
     - task: Docker@2
       inputs:
         containerRegistry: 'Dockerhub'
-        repository: 'cog-devops-lab'
+        repository: 'cog-app'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
         tags: 'latest'
