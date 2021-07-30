@@ -53,9 +53,10 @@ stages:
   - job: DockerBuildPush
     steps:
     
+    # Build jar file.
+    
     - script: chmod +x gradlew && ./gradlew build
     
-    - script: ls build/libs/
     
     # Create image with build specificity.
 
