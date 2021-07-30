@@ -57,7 +57,13 @@ stages:
 
     - script: chmod +x gradlew && ./gradlew build
     
-    
+    # Publish an Artifact of the app.
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: './build/libs/spring-boot-0.0.1-SNAPSHOT.jar'
+        artifact: 'app'
+        publishLocation: 'pipeline'
+
     # Create image with build specificity.
     - task: Docker@2
       inputs:
@@ -79,25 +85,25 @@ stages:
         tags: 'latest'
         addPipelineData: false
 
-# - stage: Deploy
-#   pool:
-#         vmImage: 'ubuntu-latest'
-#   displayName: Deploy to AKS Cluster
-#   dependsOn: Check
-#   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-#   jobs:
-#     - deployment: DevDeploy
-#       displayName: Deploy to AKS Dev Environment
-#       condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
-#       environment: dev
-#       strategy:
-#         runOnce:
-#           deploy:
-#             steps:
-#             - checkout: self
-#             - task: KubernetesManifest@0
-#               inputs:
-#                 action: 'deploy'
-#                 kubernetesServiceConnection: 'cog-aks-cluster'
-#                 namespace: 'anthony'
-#                 manifests: './kubernetes.yml'
+- stage: Deploy
+  pool:
+        vmImage: 'ubuntu-latest'
+  displayName: Deploy to AKS Cluster
+  dependsOn: Check
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  jobs:
+    - deployment: DevDeploy
+      displayName: Deploy to AKS Dev Environment
+      condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+      environment: dev
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+            - checkout: self
+            - task: KubernetesManifest@0
+              inputs:
+                action: 'deploy'
+                kubernetesServiceConnection: 'cog-aks-cluster'
+                namespace: 'anthony'
+                manifests: './kubernetes.yml'
