@@ -34,7 +34,7 @@ stages:
           configMode: 'manual'
           cliProjectKey: '$(sonarProjectKey)'
           cliSources: '.'
-          extraProperties: 'sonar.java.binaries=/target/**/*'
+          extraProperties: 'sonar.java.binaries=/build/**/*'
 
       # Build and Test application
 
