@@ -89,7 +89,7 @@ stages:
   pool:
         vmImage: 'ubuntu-latest'
   displayName: Deploy to AKS Cluster
-  dependsOn: Check
+  dependsOn: DockerBuildPush
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
   jobs:
     - deployment: DevDeploy
