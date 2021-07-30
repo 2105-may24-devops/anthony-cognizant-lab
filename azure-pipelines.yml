@@ -57,12 +57,25 @@ stages:
     
     - script: ls build/libs/
     
+    # Create image with build specificity.
+
     - task: Docker@2
       inputs:
         containerRegistry: 'Dockerhub'
         repository: 'cog-devops-lab'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
+        tags: '$(Build.BuildNumber)'
+
+    # Create image with latest.   
+
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'Dockerhub'
+        repository: 'cog-devops-lab'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        tags: 'latest'
 
 # - stage: Deploy
 #   pool:
