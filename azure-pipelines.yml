@@ -46,17 +46,12 @@ stages:
       - task: SonarCloudPublish@1
         inputs:
           pollingTimeoutSec: '300'
-      
-      - task: PublishPipelineArtifact@1
-        inputs:
-          targetPath: '/build/libs/app.jar'
-          artifact: 'app'
-          publishLocation: 'pipeline'
 
-  # - stage: DockerBuildPush
-  #   jobs:
-  #   - job: DockerBuildPush
-  #     steps:
-  #     - script: |
-  #         echo "Docker Build"
-  #         echo "Docker Push"
+- stage: DockerBuildPush
+  jobs:
+  - job: DockerBuildPush
+    steps:
+    
+    - script: chmod +x gradlew && ./gradlew build
+    
+    - script: ls build/libs/
