@@ -1,5 +1,5 @@
 FROM openjdk:8-jdk-alpine
 
-COPY target/app.jar app.jar
+COPY ./build/libs/spring-boot-0.0.1-SNAPSHOT.jar spring-boot-0.0.1-SNAPSHOT.jar
 
-ENTRYPOINT ["java","-jar","app.jar"]
+ENTRYPOINT ["java","-jar","spring-boot-0.0.1-SNAPSHOT.jar"]
