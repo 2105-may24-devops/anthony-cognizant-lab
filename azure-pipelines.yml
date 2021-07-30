@@ -12,12 +12,12 @@ pr:
       - staging
       - development
       - feature_*
+
 stages:
 - stage: Compile
   jobs:
     - job: Compile
       displayName: Build and Test
-     # container: <Probably a gradle container here>
       steps:
 
       # Prepare SonarCloud Analysis
